@@ -1,7 +1,24 @@
 package com.tw.comprehensive;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import org.junit.jupiter.api.Test;
 
 class TradingServiceTest {
 
+}
+    @Test
+    void should_logNewTrade_when_call_createTrade() {
+        AuditService spyAuditService = spy(AuditService.class);
+        TradingService tradingService = new TradingService(new TradeRepository(), spyAuditService);
+
+        Trade mockTrade = mock(Trade.class);
+        tradingService.createTrade(mockTrade);
+
+        verify(spyAuditService, times(1)).logNewTrade(mockTrade);
+    }
 }
